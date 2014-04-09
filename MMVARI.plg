@@ -1,0 +1,111 @@
+<html>
+<body>
+<pre>
+<h1>ﾋﾞﾙﾄﾞのﾛｸﾞ</h1>
+<h3>
+--------------------構成: MMVARI - Win32 Debug--------------------
+</h3>
+<h3>ｺﾏﾝﾄﾞ ﾗｲﾝ</h3>
+ｺﾏﾝﾄﾞ ﾗｲﾝ "midl.exe /nologo /D "_DEBUG" /tlb "Debug/MMVARI.tlb" /mktyplib203 /win32 "C:\DummyC\MMXV107a\MMVARI.odl"" の作成中
+Creating command line "rc.exe /l 0x411 /fo"Debug/MMVARI.res" /i "Debug" /d "_DEBUG" /d "_AFXDLL" "C:\DummyC\MMXV107a\MMVARI.rc"" 
+一時ﾌｧｲﾙ "C:\DOCUME~1\Nobu\LOCALS~1\Temp\RSPDD.tmp" を作成し、次の内容を記録します
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Fp"Debug/MMVARI.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\DummyC\MMXV107a\CLX.cpp"
+"C:\DummyC\MMXV107a\ComLib.cpp"
+"C:\DummyC\MMXV107a\Comm.cpp"
+"C:\DummyC\MMXV107a\DSP.cpp"
+"C:\DummyC\MMXV107a\Fft.cpp"
+"C:\DummyC\MMXV107a\mfsk.cpp"
+"C:\DummyC\MMXV107a\MMVARI.cpp"
+"C:\DummyC\MMXV107a\MMVARICtl.cpp"
+"C:\DummyC\MMXV107a\MMVARIPpg.cpp"
+"C:\DummyC\MMXV107a\Wave.cpp"
+"C:\DummyC\MMXV107a\XMMVBtnCtl.cpp"
+"C:\DummyC\MMXV107a\XMMVBtnPpg.cpp"
+"C:\DummyC\MMXV107a\XMMVLvlCtl.cpp"
+"C:\DummyC\MMXV107a\XMMVLvlPpg.cpp"
+"C:\DummyC\MMXV107a\XMMVViewCtl.cpp"
+"C:\DummyC\MMXV107a\XMMVViewPpg.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\Nobu\LOCALS~1\Temp\RSPDD.tmp" 
+一時ﾌｧｲﾙ "C:\DOCUME~1\Nobu\LOCALS~1\Temp\RSPDE.tmp" を作成し、次の内容を記録します
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Fp"Debug/MMVARI.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\DummyC\MMXV107a\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\Nobu\LOCALS~1\Temp\RSPDE.tmp" 
+一時ﾌｧｲﾙ "C:\DOCUME~1\Nobu\LOCALS~1\Temp\RSPDF.tmp" を作成し、次の内容を記録します
+[
+winmm.lib /nologo /subsystem:windows /dll /incremental:yes /pdb:"Debug/MMVARI.pdb" /debug /machine:I386 /def:".\MMVARI.def" /out:"Debug/MMVARI.ocx" /implib:"Debug/MMVARI.lib" /pdbtype:sept 
+.\Debug\CLX.obj
+.\Debug\ComLib.obj
+.\Debug\Comm.obj
+.\Debug\DSP.obj
+.\Debug\Fft.obj
+.\Debug\mfsk.obj
+.\Debug\MMVARI.obj
+.\Debug\MMVARICtl.obj
+.\Debug\MMVARIPpg.obj
+.\Debug\StdAfx.obj
+.\Debug\Wave.obj
+.\Debug\XMMVBtnCtl.obj
+.\Debug\XMMVBtnPpg.obj
+.\Debug\XMMVLvlCtl.obj
+.\Debug\XMMVLvlPpg.obj
+.\Debug\XMMVViewCtl.obj
+.\Debug\XMMVViewPpg.obj
+.\Debug\MMVARI.res
+]
+ｺﾏﾝﾄﾞ ﾗｲﾝ "link.exe @C:\DOCUME~1\Nobu\LOCALS~1\Temp\RSPDF.tmp" の作成中
+一時ﾌｧｲﾙ "C:\DOCUME~1\Nobu\LOCALS~1\Temp\RSPE0.bat" を作成し、次の内容を記録します
+[
+@echo off
+regsvr32 /s /c ".\Debug\MMVARI.ocx"
+echo regsvr32 exec. time > ".\Debug\regsvr32.trg"
+]
+ｺﾏﾝﾄﾞ ﾗｲﾝ "C:\DOCUME~1\Nobu\LOCALS~1\Temp\RSPE0.bat" の作成中
+ﾀｲﾌﾟ ﾗｲﾌﾞﾗﾘを作成中...
+Processing C:\DummyC\MMXV107a\MMVARI.odl
+MMVARI.odl
+Processing C:\Program Files\Microsoft Visual Studio\VC98\INCLUDE\oaidl.idl
+oaidl.idl
+Processing C:\Program Files\Microsoft Visual Studio\VC98\INCLUDE\objidl.idl
+objidl.idl
+Processing C:\Program Files\Microsoft Visual Studio\VC98\INCLUDE\unknwn.idl
+unknwn.idl
+Processing C:\Program Files\Microsoft Visual Studio\VC98\INCLUDE\wtypes.idl
+wtypes.idl
+ﾘｿｰｽをｺﾝﾊﾟｲﾙ中...
+ｺﾝﾊﾟｲﾙ中...
+StdAfx.cpp
+ｺﾝﾊﾟｲﾙ中...
+CLX.cpp
+ComLib.cpp
+Comm.cpp
+DSP.cpp
+Fft.cpp
+mfsk.cpp
+MMVARI.cpp
+MMVARICtl.cpp
+MMVARIPpg.cpp
+Wave.cpp
+XMMVBtnCtl.cpp
+XMMVBtnPpg.cpp
+XMMVLvlCtl.cpp
+XMMVLvlPpg.cpp
+XMMVViewCtl.cpp
+XMMVViewPpg.cpp
+ｺｰﾄﾞを生成中...
+ﾘﾝｸ中...
+   ﾗｲﾌﾞﾗﾘ Debug/MMVARI.lib とｵﾌﾞｼﾞｪｸﾄ Debug/MMVARI.exp を作成中
+<h3>ｱｳﾄﾌﾟｯﾄ ｳｨﾝﾄﾞｳ</h3>
+ActiveX ｺﾝﾄﾛｰﾙを登録しています...
+
+
+
+<h3>結果</h3>
+MMVARI.ocx - ｴﾗｰ 0、警告 0
+</pre>
+</body>
+</html>

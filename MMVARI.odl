@@ -1,0 +1,463 @@
+// MMVARI.odl : ActiveX コントロール プロジェクトのタイプ ライブラリのソース
+
+// このファイルはタイプ ライブラリ (MMVARI.tlb) を作成するために
+// タイプ ライブラリ作成ツール (mktyplib) によって処理されます。
+// タイプ ライブラリは MMVARI.ocx のリソースになります。
+
+#include <olectl.h>
+#include <idispids.h>
+
+[ uuid(7B28D2B3-E19F-41D5-87FE-290CED5257DE), version(1.0),
+  helpfile("MMVARI.hlp"),
+  helpstring("MMVARI ActiveX control module"),
+  control ]
+library MMVARILib
+{
+	importlib(STDOLE_TLB);
+	importlib(STDTYPE_TLB);
+
+	typedef enum {		// エラーコード
+		errorNONE,
+		errorLostRX,
+		errorLostTX,
+		errorSoundOpen,
+		errorComOpen,
+	}MMVX_ERRORCODE;
+	typedef enum {		// 送信ステータス
+		txstateRX,
+		txstateTX,
+		txstateREQRX,
+		txstateWAIT,
+		txstateTONE,
+	}MMVX_TXSTATE;
+	typedef enum {		// 送信コマンド
+		cmdtxRX,
+		cmdtxTX,
+		cmdtxREQRX,
+		cmdtxCW,
+		cmdtxTONE,
+	}MMVX_TXCMD;
+	typedef enum {
+		collectNONE,
+		collectSYNC,
+		collectWAVE,
+	}MMVX_COLLECTTYPE;
+	typedef enum {
+		pttlineRTS,
+		pttlineDTR,
+		pttlineTXD,
+	}MMVX_PTTLINES;
+	typedef enum {
+		viewtypeFFT,
+		viewtypeWATER,
+		viewtypeWAVE,
+		viewtypeFREQERR,
+		viewtypeSMALLWATER,
+	}MMVX_VIEWTYPE;
+
+	//  CMMVARICtrl の最初のディスパッチ インターフェイス
+
+	[ uuid(652F4647-F36A-443C-8BA1-86D05E822507),
+	  helpstring("Dispatch interface for MMVARI Control"), hidden ]
+	dispinterface _DMMVARI
+	{
+		properties:
+			// メモ - ClassWizard はこの位置にプロパティ情報を追加します。
+			//    このセクションの編集は慎重に行ってください。
+			//{{AFX_ODL_PROP(CMMVARICtrl)
+			[id(1)] short wCollectType;
+			[id(2)] short wTxCarrier;
+			[id(3)] long dwATC;
+			[id(4)] boolean bActive;
+			[id(5)] boolean bATC;
+			[id(6)] boolean bAddStartCR;
+			[id(7)] boolean bAddStopCR;
+			[id(8)] boolean bNET;
+			[id(13)] boolean bTX;
+			[id(14)] double dblSampleFreq;
+			[id(15)] long dwSampleBase;
+			[id(16)] double dblFFTSampleFreq;
+			[id(17)] double dblTxOffset;
+			[id(18)] short wModeMax;
+			[id(19)] boolean bReqRX;
+			[id(20)] short nBPF;
+			[id(21)] BSTR strSoundID;
+			[id(22)] short wSoundCH;
+			[id(23)] short wSoundRxFIFO;
+			[id(24)] short wSoundTxFIFO;
+			[id(25)] short wModGain;
+			[id(26)] long dwHandle;
+			[id(27)] BSTR strVersion;
+			[id(28)] short wAFCWidth;
+			[id(29)] short wAFCLevel;
+			[id(9)] short statLostRX;
+			[id(10)] short statLostTX;
+			[id(30)] short statSoundOpen;
+			[id(31)] short statIsPlaying;
+			[id(32)] short wChannels;
+			[id(33)] boolean bLoopExternal;
+			[id(34)] short wBufferCount;
+			[id(35)] BSTR strPTTPort;
+			[id(36)] boolean bPTTLock;
+			[id(37)] short wFFTType;
+			[id(38)] boolean bNotch;
+			[id(39)] short wNotchFreq;
+			[id(40)] short wCWSpeed;
+			[id(41)] boolean bTreatCenterMFSK;
+			[id(42)] boolean bMetricSqMFSK;
+			[id(43)] short wBufferMax;
+			[id(44)] short wDiddleRTTY;
+			[id(45)] boolean bPlayBack;
+			[id(46)] short wLang;
+			[id(47)] short wDefaultCharset;
+			[id(48)] double dblTxShift;
+			[id(DISPID_HWND)] OLE_HANDLE hWnd;
+			[id(49)] short wFFTWidth;
+			[id(50)] short wTxState;
+			[id(51)] short wWaveMax;
+			[id(52)] short statComOpen;
+			[id(53)] boolean bHPF;
+			[id(54)] double dblCustomSampleFreq;
+			[id(55)] short wNumNotches;
+			[id(56)] boolean bCustomFilter;
+			[id(57)] short wNotchTaps;
+			[id(11)] boolean bCOMFSK;
+			[id(12)] boolean bCOMFSKINV;
+			//}}AFX_ODL_PROP
+
+		methods:
+			// メモ - ClassWizard はこの位置にメソッド情報を追加します。
+			//    このセクションの編集は慎重に行ってください。
+			//{{AFX_ODL_METHOD(CMMVARICtrl)
+			[id(79), propget] BSTR strModeList(short nIndex);
+			[id(80), propget] BSTR strMode(short nIndex);
+			[id(80), propput] void strMode(short nIndex, BSTR lpszNewValue);
+			[id(81), propget] double dblSpeed(short nIndex);
+			[id(81), propput] void dblSpeed(short nIndex, double newValue);
+			[id(82), propget] short wRxCarrier(short nIndex);
+			[id(82), propput] void wRxCarrier(short nIndex, short nNewValue);
+			[id(83), propget] short bRxEnabled(short nIndex);
+			[id(83), propput] void bRxEnabled(short nIndex, short nNewValue);
+			[id(84), propget] short wSQLevel(short nIndex);
+			[id(84), propput] void wSQLevel(short nIndex, short nNewValue);
+			[id(58)] void SendTone();
+			[id(85), propget] short bSQ(short nIndex);
+			[id(86), propget] short wSN(short nIndex);
+			[id(59)] boolean PlayBack(short wSec);
+			[id(60)] void SetTX(short wCmd);
+			[id(61)] short SendText(BSTR strText);
+			[id(62)] short SendCWID(BSTR strText);
+			[id(63)] BSTR GetSendText();
+			[id(64)] void AdjustClock(short wWidth);
+			[id(65)] void SetClockAdjust(short wTone, double dblSampleFreq);
+			[id(87), propget] short wCharset(short nIndex);
+			[id(87), propput] void wCharset(short nIndex, short nNewValue);
+			[id(66)] BSTR GetVariType(short nIndex);
+			[id(67)] void AttachLongArray(long* pDist, long* pSrc, short wSize);
+			[id(88), propget] short bAFC(short nIndex);
+			[id(88), propput] void bAFC(short nIndex, short nNewValue);
+			[id(89), propget] short bSync(short nIndex);
+			[id(90), propget] double dblFreqError(short nIndex);
+			[id(91), propget] double dblBandWidth(short nIndex);
+			[id(92), propget] short wMetricMFSK(short nIndex, short nPhase);
+			[id(93), propget] short bUOS(short nIndex);
+			[id(93), propput] void bUOS(short nIndex, short nNewValue);
+			[id(94), propget] double dblRxShift(short nIndex);
+			[id(94), propput] void dblRxShift(short nIndex, double newValue);
+			[id(95), propget] short wMode(short nIndex);
+			[id(95), propput] void wMode(short nIndex, short nNewValue);
+			[id(68)] short SendChar(short wChar);
+			[id(69)] boolean CreateVaricodeList(BSTR strName);
+			[id(96), propget] short bCodeMM(short nIndex);
+			[id(97), propget] short bPTTLines(short nLine);
+			[id(97), propput] void bPTTLines(short nLine, short nNewValue);
+			[id(98), propget] short bOverLevel(short nIndex);
+			[id(99), propget] short wNotches(short nIndex);
+			[id(99), propput] void wNotches(short nIndex, short nNewValue);
+			[id(70)] boolean CreateCustomFilter(short nTaps, double* pCoeff);
+			[id(71)] void DeleteCustomFilter();
+			[id(72)] short FindNotchFreq(short wFreq);
+			[id(73)] void AddNotchFreq(short wFreq);
+			[id(74)] void DeleteNotch(short nIndex);
+			[id(75)] boolean CalcCustomCharacteristic(double* pAmp, double* pPhase, short wWidth, short wMaxFreq);
+			[id(100), propget] short wRxCenter(short nIndex);
+			[id(76)] boolean CreateCustomFilterByKW(short nType, short nTaps, double dblFC1, double dblFC2, short wDB);
+			[id(77)] boolean CreateCustomFilterByIDFT(short nTaps, double* pFreqSamp, short wDB);
+			[id(78)] short ReadFFT(long* pArray, short wCount);
+			[id(101), propget] short bCodeBAUDOT(short nIndex);
+			[id(102), propget] short bRTTYFFT(short nIndex);
+			[id(102), propput] void bRTTYFFT(short nIndex, short nNewValue);
+			//}}AFX_ODL_METHOD
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+	};
+
+	//  CMMVARICtrl のイベント ディスパッチ インターフェイス
+
+	[ uuid(77710981-37E2-42A5-B89E-37638EE10779),
+	  helpstring("Event interface for MMVARI Control") ]
+	dispinterface _DMMVARIEvents
+	{
+		properties:
+			//  イベント インターフェイスにプロパティはありません
+
+		methods:
+			// メモ - ClassWizard はこの位置にイベント情報を追加します。
+			//    このセクションの編集は慎重におこなってください。
+			//{{AFX_ODL_EVENT(CMMVARICtrl)
+			[id(1)] void OnDrawWave(short wCount, long* pArray1, long* pArray2);
+			[id(2)] void OnDrawFFT(short wCount, long* pArray);
+			[id(3)] void OnGetTxChar(short* wChar);
+			[id(4)] void OnPTT(short wTX);
+			[id(5)] void OnTxState(short wState);
+			[id(6)] void OnPlayBack(short wStat);
+			[id(7)] void OnSpeed(short nIndex, double dblSpeed);
+			[id(8)] void OnClockAdjust(long* pArray);
+			[id(9)] void OnTiming(short nIndex, long dwTiming, short wUnit);
+			[id(10)] void OnTxCarrier(short wFreq);
+			[id(11)] void OnRxCarrier(short nIndex, short wFreq);
+			[id(12)] void OnNET(short bNET);
+			[id(13)] void OnMode(short nIndex, short mIndex, BSTR strMode);
+			[id(14)] void OnRxChar(short nIndex, BSTR strChar, short wChar);
+			[id(15)] void OnError(short nErrorCode);
+			//}}AFX_ODL_EVENT
+	};
+
+	//  CMMVARICtrl のクラス情報
+
+	[ uuid(9C0D49DD-5C05-456D-916B-98C4CF63172F),
+	  helpstring("MMVARI Control"), control ]
+	coclass MMVARI
+	{
+		[default] dispinterface _DMMVARI;
+		[default, source] dispinterface _DMMVARIEvents;
+	};
+
+	//  CXMMVBtnCtrl の最初のディスパッチ インターフェイス
+
+	[ uuid(3492B872-A984-4848-9CA8-C7FCAA680329),
+	  helpstring("Dispatch interface for XMMVBtn Control"), hidden ]
+	dispinterface _DXMMVBtn
+	{
+		properties:
+			// メモ - ClassWizard はこの位置にプロパティ情報を追加します。
+			//    このセクションの編集は慎重に行ってください。
+			//{{AFX_ODL_PROP(CXMMVBtnCtrl)
+			[id(1)] boolean Visible;
+			[id(2)] BSTR Caption;
+			[id(3)] OLE_COLOR TextColor;
+			[id(4)] boolean Enabled;
+			[id(5)] boolean State;
+			[id(6)] boolean Toggled;
+			[id(7)] OLE_COLOR FaceColor;
+			[id(DISPID_FONT), bindable] IFontDisp* Font;
+			[id(DISPID_HWND)] OLE_HANDLE hWnd;
+			//}}AFX_ODL_PROP
+
+		methods:
+			// メモ - ClassWizard はこの位置にメソッド情報を追加します。
+			//    このセクションの編集は慎重に行ってください。
+			//{{AFX_ODL_METHOD(CXMMVBtnCtrl)
+			//}}AFX_ODL_METHOD
+	};
+
+	//  CXMMVBtnCtrl のイベント ディスパッチ インターフェイス
+
+	[ uuid(636224D0-2F16-4FE6-B2C9-EF06D770CA2C),
+	  helpstring("Event interface for XMMVBtn Control") ]
+	dispinterface _DXMMVBtnEvents
+	{
+		properties:
+			//  イベント インターフェイスにプロパティはありません
+
+		methods:
+			// メモ - ClassWizard はこの位置にイベント情報を追加します。
+			//    このセクションの編集は慎重におこなってください。
+			//{{AFX_ODL_EVENT(CXMMVBtnCtrl)
+			[id(1)] void OnLButtonClick();
+			[id(2)] void OnRButtonClick();
+			//}}AFX_ODL_EVENT
+	};
+
+	//  CXMMVBtnCtrl のクラス情報
+
+	[ uuid(0BDF39BD-46D0-42E8-B8B2-6045FEAC5F4F),
+	  helpstring("XMMVBtn Control"), control ]
+	coclass XMMVBtn
+	{
+		[default] dispinterface _DXMMVBtn;
+		[default, source] dispinterface _DXMMVBtnEvents;
+	};
+
+	//  CXMMVLvlCtrl の最初のディスパッチ インターフェイス
+
+	[ uuid(6B314F73-EBB7-47A2-963E-732DEDF87C83),
+	  helpstring("Dispatch interface for XMMVLvl Control"), hidden ]
+	dispinterface _DXMMVLvl
+	{
+		properties:
+			// メモ - ClassWizard はこの位置にプロパティ情報を追加します。
+			//    このセクションの編集は慎重に行ってください。
+			//{{AFX_ODL_PROP(CXMMVLvlCtrl)
+			[id(1)] boolean Visible;
+			[id(5)] OLE_COLOR OnColor;
+			[id(6)] OLE_COLOR OffColor;
+			[id(7)] OLE_COLOR LineColor;
+			[id(8)] OLE_COLOR BackColor;
+			[id(2)] short MaxLevel;
+			[id(DISPID_BORDERSTYLE), bindable, requestedit] short BorderStyle;
+			[id(9)] OLE_COLOR TxColor;
+			[id(DISPID_HWND)] OLE_HANDLE hWnd;
+			[id(3)] OLE_COLOR OverColor;
+			[id(4)] OLE_COLOR UnlockColor;
+			//}}AFX_ODL_PROP
+
+		methods:
+			// メモ - ClassWizard はこの位置にメソッド情報を追加します。
+			//    このセクションの編集は慎重に行ってください。
+			//{{AFX_ODL_METHOD(CXMMVLvlCtrl)
+			[id(10)] void Clear();
+			[id(11)] void Draw(long dwHandle, short nIndex);
+			[id(12)] void DrawCustom(short wSig, short wSq, short fOver);
+			//}}AFX_ODL_METHOD
+	};
+
+	//  CXMMVLvlCtrl のイベント ディスパッチ インターフェイス
+
+	[ uuid(5056F966-CBCD-4D96-B1EF-7BD85FFAE45B),
+	  helpstring("Event interface for XMMVLvl Control") ]
+	dispinterface _DXMMVLvlEvents
+	{
+		properties:
+			//  イベント インターフェイスにプロパティはありません
+
+		methods:
+			// メモ - ClassWizard はこの位置にイベント情報を追加します。
+			//    このセクションの編集は慎重におこなってください。
+			//{{AFX_ODL_EVENT(CXMMVLvlCtrl)
+			[id(1)] void OnLMouseDown(short level);
+			[id(2)] void OnLMouseUp(short level);
+			[id(3)] void OnLMouseMove(short level);
+			[id(4)] void OnRMouseDown(short level);
+			[id(5)] void OnRMouseUp(short level);
+			[id(6)] void OnRMouseMove(short level);
+			//}}AFX_ODL_EVENT
+	};
+
+	//  CXMMVLvlCtrl のクラス情報
+
+	[ uuid(438EF93A-939D-4B6B-93A7-DF09049B8514),
+	  helpstring("XMMVLvl Control"), control ]
+	coclass XMMVLvl
+	{
+		[default] dispinterface _DXMMVLvl;
+		[default, source] dispinterface _DXMMVLvlEvents;
+	};
+
+	//  CXMMVViewCtrl の最初のディスパッチ インターフェイス
+
+	[ uuid(D821B75D-3E58-4A6E-A602-392FE4B90F50),
+	  helpstring("Dispatch interface XMMVView Control"), hidden ]
+	dispinterface _DXMMVView
+	{
+		properties:
+			// メモ - ClassWizard はこの位置にプロパティ情報を追加します。
+			//    このセクションの編集は慎重に行ってください。
+			//{{AFX_ODL_PROP(CXMMVViewCtrl)
+			[id(DISPID_BORDERSTYLE), bindable, requestedit] short BorderStyle;
+			[id(1)] long dwFreqHz;
+			[id(2)] boolean bLSB;
+			[id(3)] short wBaseFreq;
+			[id(4)] short wWidthFreq;
+			[id(DISPID_FONT), bindable] IFontDisp* Font;
+			[id(5)] boolean bWaterAGC;
+			[id(6)] boolean Visible;
+			[id(7)] boolean bFollowRxFreq;
+			[id(8)] short wType;
+			[id(9)] short wWaterNoiseL;
+			[id(10)] short wWaterNoiseH;
+			[id(17)] short wWaterNoise;
+			[id(11)] boolean bShowSync;
+			[id(12)] short wCursorFreq;
+			[id(13)] boolean bHighQuality;
+			[id(DISPID_HWND)] OLE_HANDLE hWnd;
+			[id(14)] boolean bShowErrorMsg;
+			[id(15)] boolean bAttachMouse;
+			[id(18)] short wPixelXW;
+			[id(19)] short wPixelYW;
+			[id(16)] boolean bWindowsMouseEvent;
+			[id(20)] short wMouseNotch;
+			[id(21)] short wMouseChannel;
+			//}}AFX_ODL_PROP
+
+		methods:
+			// メモ - ClassWizard はこの位置にメソッド情報を追加します。
+			//    このセクションの編集は慎重に行ってください。
+			//{{AFX_ODL_METHOD(CXMMVViewCtrl)
+			[id(22)] void Draw(long dwHandle);
+			[id(23)] void DrawWave(long dwHandle);
+			[id(27), propget] OLE_COLOR ColorFFT(short nIndex);
+			[id(27), propput] void ColorFFT(short nIndex, OLE_COLOR nNewValue);
+			[id(28), propget] OLE_COLOR ColorWater(short nIndex);
+			[id(28), propput] void ColorWater(short nIndex, OLE_COLOR nNewValue);
+			[id(29), propget] OLE_COLOR ColorWave(short nIndex);
+			[id(29), propput] void ColorWave(short nIndex, OLE_COLOR nNewValue);
+			[id(30), propget] short wWaterLevel(short nIndex);
+			[id(30), propput] void wWaterLevel(short nIndex, short nNewValue);
+			[id(31), propget] OLE_COLOR WaterPalette(short nIndex);
+			[id(31), propput] void WaterPalette(short nIndex, OLE_COLOR nNewValue);
+			[id(32), propget] BSTR strMsg(short nIndex);
+			[id(32), propput] void strMsg(short nIndex, BSTR lpszNewValue);
+			[id(24)] void ClearWater();
+			[id(25)] void DrawFreqErr(long dwHandle, short nIndex);
+			[id(33), propget] OLE_COLOR ColorFreqErr(short nIndex);
+			[id(33), propput] void ColorFreqErr(short nIndex, OLE_COLOR nNewValue);
+			[id(26)] void DrawSmallWater(long dwHandle, short nIndex);
+			[id(34), propget] BSTR strErrorMsg(short nIndex);
+			[id(34), propput] void strErrorMsg(short nIndex, BSTR lpszNewValue);
+			[id(DISPID_REFRESH)] void Refresh();
+			//}}AFX_ODL_METHOD
+	};
+
+	//  CXMMVViewCtrl のイベント ディスパッチ インターフェイス
+
+	[ uuid(C5F81D0F-BF24-4300-92FA-DFB6DE38C101),
+	  helpstring("Event interface for XMMVView Control") ]
+	dispinterface _DXMMVViewEvents
+	{
+		properties:
+			//  イベント インターフェイスにプロパティはありません
+
+		methods:
+			// メモ - ClassWizard はこの位置にイベント情報を追加します。
+			//    このセクションの編集は慎重におこなってください。
+			//{{AFX_ODL_EVENT(CXMMVViewCtrl)
+			[id(1)] void OnLMouseDown(short wFreq);
+			[id(2)] void OnLMouseUp(short wFreq);
+			[id(3)] void OnLMouseMove(short wFreq);
+			[id(4)] void OnRMouseDown(short wFreq);
+			[id(5)] void OnRMouseMove(short wFreq);
+			[id(6)] void OnRMouseUp(short wFreq);
+			[id(7)] void OnWindowsLMouseDown(short wX, short wY);
+			[id(8)] void OnWindowsLMouseUp(short wX, short wY);
+			[id(9)] void OnWindowsRMouseUp(short wX, short wY);
+			[id(10)] void OnWindowsRMouseDown(short wX, short wY);
+			[id(11)] void OnWindowsMouseMove(long dwFlag, short wX, short wY);
+			[id(12)] void OnWindowsLMouseDblClk(short wX, short wY);
+			//}}AFX_ODL_EVENT
+	};
+
+	//  CXMMVViewCtrl のクラス情報
+
+	[ uuid(702CBF07-C159-44F2-B8A6-DF8EA1001E08),
+	  helpstring("XMMVView Control"), control ]
+	coclass XMMVView
+	{
+		[default] dispinterface _DXMMVView;
+		[default, source] dispinterface _DXMMVViewEvents;
+	};
+
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};
